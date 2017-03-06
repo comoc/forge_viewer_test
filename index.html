@@ -7,6 +7,8 @@
 		<!-- The Viewer CSS -->
 		<link rel="stylesheet" href="https://developer.api.autodesk.com/viewingservice/v1/viewers/style.min.css" type="text/css">
 
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<!-- Developer CSS -->
 		<style>
 body {
@@ -19,6 +21,8 @@ body {
 	background-color: #F0F8FF;
 }
 		</style>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</head>
 	<body>
 
@@ -41,53 +45,53 @@ Autodesk.Viewing.Initializer(options, function onInitialized(){
 	Autodesk.Viewing.Document.load(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
 });
 
-	/**
-	 * Autodesk.Viewing.Document.load() success callback.
-	 * Proceeds with model initialization.
-	 */
-		function onDocumentLoadSuccess(doc) {
+/**
+ * Autodesk.Viewing.Document.load() success callback.
+ * Proceeds with model initialization.
+ */
+function onDocumentLoadSuccess(doc) {
 
-// A document contains references to 3D and 2D viewables.
-var viewables = Autodesk.Viewing.Document.getSubItemsWithProperties(doc.getRootItem(), {'type':'geometry'}, true);
-if (viewables.length === 0) {
-	console.error('Document contains no viewables.');
-	return;
+	// A document contains references to 3D and 2D viewables.
+	var viewables = Autodesk.Viewing.Document.getSubItemsWithProperties(doc.getRootItem(), {'type':'geometry'}, true);
+	if (viewables.length === 0) {
+		console.error('Document contains no viewables.');
+		return;
+	}
+
+	// Choose any of the avialble viewables
+	var initialViewable = viewables[0];
+	var svfUrl = doc.getViewablePath(initialViewable);
+	var modelOptions = {
+		sharedPropertyDbPath: doc.getPropertyDbPath()
+	};
+
+	var viewerDiv = document.getElementById('MyViewerDiv');
+	viewer = new Autodesk.Viewing.Private.GuiViewer3D(viewerDiv);
+	viewer.start(svfUrl, modelOptions, onLoadModelSuccess, onLoadModelError);
 }
 
-// Choose any of the avialble viewables
-var initialViewable = viewables[0];
-var svfUrl = doc.getViewablePath(initialViewable);
-var modelOptions = {
-	sharedPropertyDbPath: doc.getPropertyDbPath()
-};
+/**
+* Autodesk.Viewing.Document.load() failuire callback.
+*/
+function onDocumentLoadFailure(viewerErrorCode) {
+	console.error('onDocumentLoadFailure() - errorCode:' + viewerErrorCode);
+}
 
-var viewerDiv = document.getElementById('MyViewerDiv');
-viewer = new Autodesk.Viewing.Private.GuiViewer3D(viewerDiv);
-viewer.start(svfUrl, modelOptions, onLoadModelSuccess, onLoadModelError);
-		}
+/**
+* viewer.loadModel() success callback.
+* Invoked after the model's SVF has been initially loaded.
+* It may trigger before any geometry has been downloaded and displayed on-screen.
+*/
+function onLoadModelSuccess(model) {
+	console.log('onLoadModelSuccess()!');
+	console.log('Validate model loaded: ' + (viewer.model === model));
+		console.log(model);
+	}
 
-	/**
-	 * Autodesk.Viewing.Document.load() failuire callback.
-	 */
-		function onDocumentLoadFailure(viewerErrorCode) {
-			console.error('onDocumentLoadFailure() - errorCode:' + viewerErrorCode);
-		}
-
-	/**
-	 * viewer.loadModel() success callback.
-	 * Invoked after the model's SVF has been initially loaded.
-	 * It may trigger before any geometry has been downloaded and displayed on-screen.
-	 */
-		function onLoadModelSuccess(model) {
-			console.log('onLoadModelSuccess()!');
-			console.log('Validate model loaded: ' + (viewer.model === model));
-			console.log(model);
-		}
-
-	/**
-	 * viewer.loadModel() failure callback.
-	 * Invoked when there's an error fetching the SVF file.
-	 */
+		/**
+		* viewer.loadModel() failure callback.
+		* Invoked when there's an error fetching the SVF file.
+		*/
 		function onLoadModelError(viewerErrorCode) {
 			console.error('onLoadModelError() - errorCode:' + viewerErrorCode);
 		}
