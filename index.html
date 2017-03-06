@@ -23,7 +23,7 @@ body {
 
 #MyGUI {
 	position: absolute;
-	width: 5%;
+	width: 8%;
 	height: 100%;
 	z-index: 10;
 	background-color: purple;
@@ -118,15 +118,23 @@ window.onload = function() {
 	});
 	b2.addEventListener('click', function() {
 		if (viewer)
+			viewer.setViewCube('right');
+	});
+	b3.addEventListener('click', function() {
+		if (viewer)
 			viewer.setViewCube('back');
+	});
+	b4.addEventListener('click', function() {
+		if (viewer)
+			viewer.setViewCube('left');
 	});
 }
 		</script>
 		<div id="MyGUI">
-			<button id="MyButton1">1</button>
-			<button id="MyButton2">2</button>
-			<button id="MyButton3">3</button>
-			<button id="MyButton4">4</button>
+			<button id="MyButton1">Front</button>
+			<button id="MyButton2">Right</button>
+			<button id="MyButton3">Back</button>
+			<button id="MyButton4">Left</button>
 		</div>
 	</body>
 </html>
