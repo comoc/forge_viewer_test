@@ -105,6 +105,21 @@ function onLoadModelSuccess(model) {
 function onLoadModelError(viewerErrorCode) {
 	console.error('onLoadModelError() - errorCode:' + viewerErrorCode);
 }
+
+
+var b1 = document.getElementById('MyButton1');
+var b2 = document.getElementById('MyButton2');
+var b3 = document.getElementById('MyButton3');
+var b4 = document.getElementById('MyButton4');
+
+	b1.addEventListener('click', function() {
+		if (viewer)
+			viewer.setViewCube('front');
+	});
+	b2.addEventListener('click', function() {
+		if (viewer)
+			viewer.setViewCube('back');
+	});
 		</script>
 		<div id="MyGUI">
 			<button id="MyButton1">1</button>
