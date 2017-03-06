@@ -23,7 +23,7 @@ body {
 
 #MyGUI {
 	position: absolute;
-	width: 10%;
+	width: 5%;
 	height: 100%;
 	z-index: 10;
 	background-color: purple;
@@ -105,7 +105,9 @@ function onLoadModelError(viewerErrorCode) {
 	console.error('onLoadModelError() - errorCode:' + viewerErrorCode);
 }
 		</script>
-		<div id="MyGUI"></div>
+		<div id="MyGUI">
+			<button id="MyButton1">Test</button>
+		</div>
 	</body>
 </html>
 
