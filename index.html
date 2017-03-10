@@ -115,7 +115,8 @@ function onLoadModelError(viewerErrorCode) {
 
 window.onload = function() {
 	var query = document.location.search.substring(1);
-	console.log(query);
+	query = query.replace(/^code=/g, '');
+ 	console.log(query);
     var b1 = document.getElementById('MyButton1');
     var b2 = document.getElementById('MyButton2');
     var b3 = document.getElementById('MyButton3');
